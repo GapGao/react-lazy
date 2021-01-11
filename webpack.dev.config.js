@@ -7,12 +7,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-    main: path.join(__dirname, "./src/main/index.js"),
+    main: path.join(__dirname, "/src/main/index.js"),
   },
   output: {
-    path: path.join(__dirname, "/public/javascripts/"),
-    filename: "[name].js",
-    publicPath: "/javascripts/",
+    path: path.join(__dirname, "/public"),
+    filename: "./javascripts/[name].js",
   },
   module: {
     rules: [
@@ -20,7 +19,7 @@ module.exports = {
         test: /\.js$/,
         exclude: [
           path.resolve(__dirname, "node_modules"),
-          path.resolve(__dirname, "/public"),
+          path.resolve(__dirname, "public"),
         ],
         use: {
           loader: "babel-loader",
@@ -34,17 +33,19 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      filename: path.join(__dirname, "/public/index.html"),
       template: "./src/main/template.html",
       thunks: ["main"],
     }),
   ],
   devtool: "source-map",
   devServer: {
+    hot: true,
     contentBase: "./public",
+    watchContentBase: true,
     host: "localhost",
     port: 3000,
     open: true,
     compress: true,
+    liveReload: true,
   },
 };
